@@ -25,4 +25,4 @@ req.keys().forEach((mod) => {
   }
 });
 
-module.exports = require('./components');
+module.exports = require('./components/index.tsx');
