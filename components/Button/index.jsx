@@ -1,10 +1,4 @@
-import React,{ Component } from "react";
-
-
-export default class Button extends Component {
-  render() {
-    return (
-      <div>this is a Button</div>
-    )
-  }
-}
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Button_1 = require("./Button");
+exports.default = Button_1.default;

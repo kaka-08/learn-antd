@@ -1,31 +1,36 @@
-// This config is for building dist files
-const webpack = require('webpack');
-const getWebpackConfig = require('./webpack.config1.js');
+var path = require("path");
+var webpack = require('webpack');
 
-// noParse still leave `require('./locale' + name)` in dist files
-// ignore is better
-// http://stackoverflow.com/q/25384360
-function ignoreMomentLocale(webpackConfig) {
-  delete webpackConfig.module.noParse;
-  webpackConfig.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));
-}
+module.exports = {
+      module:{
+        rules:[
+          {
+             test: /\.css$/,  //载入css
+             use: [
+               'style-loader',
+               'css-loader'
+              ]
+          },
+           {
+             test: /\.(png|svg|jpg|gif)$/, //载入图像
+             use: [
+               'file-loader'
+             ]
+           },
+           {
+            test: /\.(woff|woff2|eot|ttf|otf)$/, //加载字体
+            use: [
+               'file-loader'
+             ]
+           },
+           {
+            test: /\.(js|jsx)$/,
+            exclude: /node_modules/,
+            loader: 'babel-loader' //在webpack的module部分的loaders里进行配置即可      
+           }
+        ]
+      }
+  };
 
-function addLocales(webpackConfig) {
-  let packageName = 'antd-with-locales';
-  if (webpackConfig.entry['antd.min']) {
-    packageName += '.min';
-  }
-  webpackConfig.entry[packageName] = './index-with-locales.js';
-  webpackConfig.output.filename = '[name].js';
-}
 
-module.exports = function (webpackConfig) {
-  webpackConfig = getWebpackConfig(webpackConfig, true);
-  if (process.env.RUN_ENV === 'PRODUCTION') {
-    webpackConfig.forEach((config) => {
-      ignoreMomentLocale(config);
-    addLocales(config);
-  });
-  }
-  return webpackConfig;
-};
+
